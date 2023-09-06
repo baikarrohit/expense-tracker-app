@@ -1,0 +1,77 @@
+.auth {
+    margin: 2rem auto;
+    max-width: 22rem;
+    padding: 2rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .auth h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .control {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 0.5rem;
+  }
+  
+  .control label {
+    font-weight: bold;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .loginbtn {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .loginbtn:hover {
+    background-color: #0056b3;
+  }
+.lowersec{
+    margin: 2rem auto;
+    max-width: 22rem;
+    padding: 2rem;
+    box-shadow: 0 1px 4px rgba(10, 10, 10, 0.1);
+    background-color: #fff;
+    text-align: center;
+}
+  .lowersec Link{
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #cbfce7;
+    color: #0c0c0c;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+
+  }
+  
