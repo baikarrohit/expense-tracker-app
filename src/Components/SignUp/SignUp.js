@@ -10,7 +10,10 @@ const SignUp = () => {
 
   const submiHandler = (event) => {
     event.preventDefault();
-
+    if (passwordRef.current.value !== confPassRef.current.value) {
+      alert("Password do not match! please type again.");
+      return;
+    }
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBORf5edv8sP32P-5ZbBrGFvteOJFsMKlE",
       {
@@ -80,7 +83,9 @@ const SignUp = () => {
             />
           </div>
 
-          <button type="submit">Sign Up</button>
+          <button type="submit" className={classes.signupBtn}>
+            Sign Up
+          </button>
         </form>
       </section>
 
