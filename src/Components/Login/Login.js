@@ -39,9 +39,9 @@ const Login = () => {
         }
       })
       .then((data) => {
-        authCtx.login(data.idToken);
+        authCtx.login(data.idToken, data.email);
         alert("User has successfully login.");
-        navigate("/welcome", {replace: true})
+        navigate("/profile", {replace: true})
 
       })
       .catch((err) => {

@@ -1,52 +1,48 @@
-import { useContext, useRef } from "react";
-import AuthContext from "../../Store/auth-context";
+import { useEffect, useRef } from "react";
+
 import classes from "./update.module.css";
 
-const UpdateProfile = () => {
+const UpdateProfile = (props) => {
   const nameRef = useRef();
   const urlRef = useRef();
-  const authCtx = useContext(AuthContext);
+  const formRef = useRef();
+  const emailRef = useRef();
 
-  const submitHandler = (event) => {
+  useEffect(() => {
+    if (props.user) {
+      nameRef.current.value = props.user.displayName || "";
+      emailRef.current.value = props.user.email || "";
+    }
+  }, [props.user]);
+
+  const submitHandler = async (event) => {
     event.preventDefault();
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBORf5edv8sP32P-5ZbBrGFvteOJFsMKlE",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: authCtx.token,
-          displayName: nameRef.current.value,
-          photoUrl: urlRef.current.value,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            let errorMsg;
-            if (data && data.error && data.error.message) {
-              errorMsg = data.error.message;
-            }
-            throw new Error(errorMsg);
-          });
+    try {
+      const res = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBORf5edv8sP32P-5ZbBrGFvteOJFsMKlE",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            idToken: localStorage["user"],
+            displayName: nameRef.current.value,
+            photoUrl: urlRef.current.value,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
-      .then((data) => {
-        alert("profile updated successfully!");
-        console.log(data);
+      );
 
-        nameRef.current.value = "";
-        urlRef.current.value = "";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      if (res.ok) {
+        alert("profile updated.");
+      } else {
+        throw new Error("Upadation failed!. Please try again.");
+      }
+      formRef.current.reset();
+    } catch (err) {
+      alert(err);
+    }
   };
   return (
     <div>
@@ -55,7 +51,9 @@ const UpdateProfile = () => {
       </header>
       <div className={classes.section}>
         <h2>Contact Details</h2>
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} ref={formRef}>
+          <label>Email:</label>
+          <input type="email" ref={emailRef} />
           <label>Full Name:</label>
           <input type="text" ref={nameRef} />
           <label>Profile photo URL:</label>
