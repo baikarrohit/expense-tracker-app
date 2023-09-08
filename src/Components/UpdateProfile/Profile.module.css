@@ -43,6 +43,20 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.logout button:hover{
-    background-color: #f32106;
+.logout button:hover {
+  background-color: #f32106;
+}
+@media (max-width: 768px) {
+  .proCon {
+    width: 100%;
+  }
+  .headerDetail span {
+    margin-left: 0;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 0;
+    margin-left: 0;
+  }
 }

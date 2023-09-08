@@ -1,5 +1,5 @@
 import React, { useContext, useState, Fragment } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../Store/auth-context";
 import classes from "./Profile.module.css";
 import UpdateProfile from "./UpdateProfile";
@@ -7,7 +7,8 @@ import UpdateProfile from "./UpdateProfile";
 const Profile = () => {
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
-  const [updateVisible, setUpdateVisible] = useState(false);
+  const location = useLocation();
+  const isLocation = location.pathname === "/profile";
   const [userData, setUserData] = useState(null);
 
   // useEffect(() => {
@@ -15,7 +16,6 @@ const Profile = () => {
   // }, [authCtx.token]);
   // Function to fetch user data from Firebase and update the state
   const fetchUserData = async () => {
-    setUpdateVisible(true);
     // if (!authCtx.token) {
     //   return;
     // }
@@ -44,6 +44,7 @@ const Profile = () => {
     } catch (error) {
       console.error(error);
     }
+    navigate("/profile", { replace: true });
   };
 
   const logoutHandler = () => {
@@ -61,14 +62,14 @@ const Profile = () => {
             <span className={classes.incomplete}>
               {/* <h5>Your profile is incomplete.</h5>
               <Link to="/updateprofile">Complete now.</Link> */}
-              {!updateVisible ? (
+              {!isLocation ? (
                 "Your Profile is incomplete. "
               ) : (
                 <React.Fragment>
                   Your profile <strong>x%</strong> completed.
                 </React.Fragment>
               )}
-              <Link onClick={fetchUserData}>Complete now</Link>
+              <button onClick={fetchUserData}>Complete now</button>
             </span>
           </div>
           <div className={classes.logout}>
@@ -78,7 +79,7 @@ const Profile = () => {
           </div>
         </div>
       </section>
-      {updateVisible && <UpdateProfile user={userData} />}
+      {isLocation && <UpdateProfile user={userData} />}
     </Fragment>
   );
 };
