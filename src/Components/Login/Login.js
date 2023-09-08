@@ -1,13 +1,15 @@
-import { Fragment, useContext, useRef } from "react";
-import classes from './Login.module.css';
+import { Fragment, useContext, useRef, useState } from "react";
+import classes from "./Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../Store/auth-context";
+import ForgotPassword from "./ForgotPassword";
 
 const Login = () => {
   const inputRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
+  const [forgetVisible, setForgetVisible] = useState(false);
   const submiHandler = (event) => {
     event.preventDefault();
 
@@ -41,42 +43,62 @@ const Login = () => {
       .then((data) => {
         authCtx.login(data.idToken, data.email);
         alert("User has successfully login.");
-        navigate("/profile", {replace: true})
-
+        navigate("/profile", { replace: true });
       })
       .catch((err) => {
         alert(err.message);
       });
   };
+
+  const forgotHandler = () => {
+    setForgetVisible(true);
+  };
+
   return (
     <Fragment>
-    <section className={classes.auth}>
-      <div>
-        <h2>Login</h2>
-      </div>
+      {forgetVisible ? (
+        <ForgotPassword onReset={() => setForgetVisible(false)} />
+      ) : (
+        <div>
+          <section className={classes.auth}>
+            <div>
+              <h2>Login</h2>
+            </div>
 
-      <form onSubmit={submiHandler} className={classes.form}>
-        <div className={classes.control}>
-          <label htmlFor="email">Email</label>
-          <input type="email" placeholder="Email" ref={inputRef} required />
+            <form onSubmit={submiHandler} className={classes.form}>
+              <div className={classes.control}>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  ref={inputRef}
+                  required
+                />
+              </div>
+
+              <div className={classes.control}>
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  ref={passwordRef}
+                  required
+                />
+              </div>
+
+              <button type="submit" className={classes.loginBtn}>
+                Login
+              </button>
+            </form>
+            <div className={classes.forgetBtn}>
+              <Link onClick={forgotHandler}>Forgot Password?</Link>
+            </div>
+          </section>
+          <section className={classes.lowersec}>
+            <Link to="/">Don't have an account? Sign Up</Link>
+          </section>
         </div>
-
-        <div className={classes.control}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            ref={passwordRef}
-            required
-          />
-        </div>
-
-        <button type="submit" className={classes.loginBtn}>Login</button>
-      </form>
-    </section>
-    <section className={classes.lowersec}>
-        <Link to="/">Don't have an account? Sign Up</Link>
-    </section>
+      )}
     </Fragment>
   );
 };

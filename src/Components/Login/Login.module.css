@@ -39,7 +39,7 @@
     font-size: 1rem;
   }
   
-  .loginbtn {
+  .loginBtn {
     width: 100%;
     padding: 0.5rem;
     background-color: #007bff;
@@ -48,11 +48,15 @@
     border-radius: 15px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+
   }
   
-  .loginbtn:hover {
+  .loginBtn:hover {
     background-color: #0056b3;
+  }
+  .forgetBtn {
+    margin-top: 8px;
+
   }
 .lowersec{
     margin: 2rem auto;
