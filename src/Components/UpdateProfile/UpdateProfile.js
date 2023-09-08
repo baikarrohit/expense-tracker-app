@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-
 import classes from "./update.module.css";
 
 const UpdateProfile = (props) => {
@@ -25,8 +24,6 @@ const UpdateProfile = (props) => {
           body: JSON.stringify({
             idToken: localStorage["user"],
             displayName: nameRef.current.value,
-            photoUrl: urlRef.current.value,
-            returnSecureToken: true,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +34,9 @@ const UpdateProfile = (props) => {
       if (res.ok) {
         alert("profile updated.");
       } else {
-        throw new Error("Upadation failed!. Please try again.");
+        const errorResponse = await res.json(); // Get the error response from the server
+        console.error("Error updating profile:", errorResponse);
+        throw new Error("Profile update failed. Please try again.");
       }
       formRef.current.reset();
     } catch (err) {
