@@ -1,9 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useEffect, Fragment } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../../Store/auth-context";
+import classes from './Profile.module.css'
 
 const Profile = () => {
   const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserData();
@@ -18,12 +20,12 @@ const Profile = () => {
         "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBORf5edv8sP32P-5ZbBrGFvteOJFsMKlE", // Replace with your API key
         {
           method: "POST",
-          body: JSON.stringify({
-            idToken: authCtx.token,
-          }),
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            idToken: authCtx.token,
+          }),
         }
       );
 
@@ -38,17 +40,32 @@ const Profile = () => {
     }
   };
 
-  // Check if user data is already available in state, if not, fetch it.
+  const logoutHandler = () => {
+    authCtx.logout();
+    navigate("/login", { replace: true });
+  };
 
   return (
-    <div>
-      <h1>Welcome to Expense Tracker</h1>
-      <span>
-        <h2>Your profile is incomplete.</h2>
+    <Fragment>
+      <section className={classes.proCon}>
+        <div className={classes.header}>
+          <div className={classes.headerDetail}>
+            <p>Welcome to Expense Tracker</p>
 
-        <Link to="/updateprofile">Complete now.</Link>
-      </span>
-    </div>
+            <span className={classes.incomplete}>
+              <h5>Your profile is incomplete.</h5>
+
+              <Link to="/updateprofile">Complete now.</Link>
+            </span>
+          </div>
+          <div className={classes.logout}>
+            <button type="button" onClick={logoutHandler}>
+              Logout
+            </button>
+          </div>
+        </div>
+      </section>
+    </Fragment>
   );
 };
 

@@ -9,8 +9,11 @@ const UpdateProfile = (props) => {
 
   useEffect(() => {
     if (props.user) {
-      nameRef.current.value = props.user.displayName || "";
-      emailRef.current.value = props.user.email || "";
+      if(props.user.displayName !== undefined){
+        nameRef.current.value = props.user.displayName;
+        }
+      
+      emailRef.current.value = props.user.email;
     }
   }, [props.user]);
 
@@ -24,6 +27,7 @@ const UpdateProfile = (props) => {
           body: JSON.stringify({
             idToken: localStorage["user"],
             displayName: nameRef.current.value,
+            photoUrl: urlRef.current.value
           }),
           headers: {
             "Content-Type": "application/json",

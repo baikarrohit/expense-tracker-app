@@ -15,13 +15,18 @@ const AuthProvider = (props) => {
     localStorage.setItem("token", token);
   };
 
-  //const logoutHandler = () => {};
+  const logoutHandler = () => {
+    setToken(null)
+    setUserEmail(null)
+    localStorage.removeItem("token")
+  };
 
   const contexValue = {
     token: token,
     isLoggedIn: userLoggedIn,
     userEmail: userEmail,
     login: loginHandler,
+    logout: logoutHandler
    
   };
   return (
