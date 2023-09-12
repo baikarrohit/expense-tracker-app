@@ -1,24 +1,39 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "./auth-context";
+import ExpenseContext from "./exp-contex";
 
 const AuthProvider = (props) => {
-  const [token, setToken] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+  const initialToken = localStorage.getItem("token");
+  const initialUserEmail = localStorage.getItem("userEmail");
+  const [token, setToken] = useState(initialToken);
+  const [userEmail, setUserEmail] = useState(initialUserEmail);
+  const expCntx = useContext(ExpenseContext);
 
-  if (token === "" && localStorage.length !== 0) {
-    setToken(localStorage["user"]);
-  }
+  // const onRefresh = () => {
+  //   if (token === "" && localStorage.length !== 0) {
+  //     setToken(localStorage["user"]);
+  //     setUserEmail(localStorage["email"]);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   onRefresh();
+  // }, []);
+
   const userLoggedIn = !!token;
   const loginHandler = (token, email) => {
     setToken(token);
     setUserEmail(email);
+    expCntx.onLogin();
     localStorage.setItem("token", token);
+    localStorage.setItem("email", email);
   };
 
   const logoutHandler = () => {
-    setToken("")
-    setUserEmail("")
-    localStorage.removeItem("token")
+    setToken("");
+    setUserEmail("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
   };
 
   const contexValue = {
@@ -26,8 +41,7 @@ const AuthProvider = (props) => {
     isLoggedIn: userLoggedIn,
     userEmail: userEmail,
     login: loginHandler,
-    logout: logoutHandler
-   
+    logout: logoutHandler,
   };
   return (
     <AuthContext.Provider value={contexValue}>

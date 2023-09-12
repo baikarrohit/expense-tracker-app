@@ -9,7 +9,7 @@ const UpdateProfile = (props) => {
 
   useEffect(() => {
     if (props.user) {
-      if(props.user.displayName !== undefined){
+      if(props.user.displayName ){
         nameRef.current.value = props.user.displayName;
         }
       
@@ -37,6 +37,9 @@ const UpdateProfile = (props) => {
 
       if (res.ok) {
         alert("profile updated.");
+        props.update();
+        nameRef.current.value = props.user.displayName;
+        emailRef.current.value = props.user.email;
       } else {
         const errorResponse = await res.json(); // Get the error response from the server
         console.error("Error updating profile:", errorResponse);

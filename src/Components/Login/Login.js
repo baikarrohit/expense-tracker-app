@@ -43,8 +43,9 @@ const Login = () => {
       .then((data) => {
         authCtx.login(data.idToken, data.email);
         alert("User has successfully login.");
+       
         // navigate("/profile", { replace: true });
-        navigate("/profile/expense-tracker", { replace: true });
+        navigate("/profile/expensetracker", { replace: true });
       })
       .catch((err) => {
         alert(err.message);

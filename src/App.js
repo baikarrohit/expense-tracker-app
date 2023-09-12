@@ -6,6 +6,7 @@ import Profile from "./Components/UpdateProfile/Profile";
 //import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import Expense from "./Components/ExpenseTracker/Expense";
 import ExpeseProvider from "./Store/ExpenseProvider";
+import RootLayout from "./Components/Layout/Root";
 function App() {
   return (
     <AuthProvider>
@@ -14,7 +15,9 @@ function App() {
           <Route path="/" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/expense-tracker" element={<Expense/>} />
+          <Route path="/profile/expensetracker" element={<RootLayout />}>
+            <Route index element={<Expense />} />
+          </Route>
         </Routes>
       </ExpeseProvider>
     </AuthProvider>
