@@ -1,11 +1,14 @@
-import React, { useContext, useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import AuthContext from "../../Store/auth-context";
 import classes from "./Profile.module.css";
 import UpdateProfile from "./UpdateProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../Store/auth-slice";
+import { expenseActions } from "../../Store/expense-slice";
 
 const Profile = () => {
-  const authCtx = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   const isLocation = location.pathname === "/profile";
@@ -21,19 +24,24 @@ const Profile = () => {
     // }
     try {
       const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBORf5edv8sP32P-5ZbBrGFvteOJFsMKlE", 
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBORf5edv8sP32P-5ZbBrGFvteOJFsMKlE",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idToken: authCtx.token,
+            idToken: auth.token,
           }),
         }
       );
       const data = await res.json();
-      setUserData(data.users[0]);
+      console.log("API Response:", data);
+      if (!res.ok) {
+        console.error("Failed to fetch user data:", data.error.message);
+      } else {
+        setUserData(data.users[0]);
+      }
 
       // if (res.ok) {
       //   const data = await res.json();
@@ -46,17 +54,18 @@ const Profile = () => {
     }
     // navigate("/profile", { replace: true });
   };
-  useEffect(()=> {
-    fetchUserData()
-  },[])
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const logoutHandler = () => {
-    authCtx.logout();
+    dispatch(authActions.logout());
+    dispatch(expenseActions.setItemsEmpty());
     navigate("/login", { replace: true });
   };
   const clickExpenseHandler = () => {
-    navigate('/profile/expensetracker',{replace:true})
-  }
+    navigate("/profile/expensetracker", { replace: true });
+  };
 
   return (
     <Fragment>
@@ -75,7 +84,9 @@ const Profile = () => {
                   Your profile <strong>x%</strong> completed.
                 </React.Fragment>
               )}
-              <button onClick={() => navigate('/profile',{replace:true})}>Complete now</button>
+              <button onClick={() => navigate("/profile", { replace: true })}>
+                Complete now
+              </button>
             </span>
           </div>
           <div className={classes.logout}>
