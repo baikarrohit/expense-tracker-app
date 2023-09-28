@@ -1,4 +1,5 @@
 import axios from "axios";
+import classes from "./ExpenseForm.module.css";
 import { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "../../Store/expense-slice";
@@ -74,28 +75,30 @@ const ExpenseForm = () => {
   };
 
   return (
-    <section>
+    <section className={classes.expenseCon}>
       <form onSubmit={submitHandler}>
         {!isInputValid && (
           <p style={{ color: "red" }}>*Please fill all input.</p>
         )}
-        <div>
-          <label htmlFor="amount">Amount:</label>
-          <input type="number" ref={amountRef} />
-        </div>
-        <div>
-          <label htmlFor="desc">Description:</label>
-          <input type="text" ref={descRef} />
-        </div>
-        <div>
-          <label htmlFor="category">Category:</label>
-          <select ref={catRef}>
-            <option>Food</option>
-            <option>Petrol</option>
-            <option>Salary</option>
-            <option>Other</option>
-          </select>
-        </div>
+        <section>
+          <div className={classes.amt}>
+            <label htmlFor="amount">Amount:</label>
+            <input type="number" ref={amountRef} />
+          </div>
+          <div>
+            <label htmlFor="desc">Description:</label>
+            <input type="text" ref={descRef} />
+          </div>
+          <div>
+            <label htmlFor="category">Category:</label>
+            <select ref={catRef}>
+              <option>Food</option>
+              <option>Petrol</option>
+              <option>Salary</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </section>
         <button type="submit">Add Expense</button>
       </form>
     </section>

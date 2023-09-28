@@ -1,5 +1,6 @@
 .proCon {
   padding: 0.5rem;
+  background-color: #5ae4ee;
 }
 
 .proCon p {
@@ -16,6 +17,12 @@
 .headerDetail span {
   margin-left: 55rem;
 }
+.headerDetail h4 {
+  font-weight: bold;
+  font-style: italic;
+  font-family: inherit;
+}
+
 .header {
   display: flex;
   flex-direction: row;
@@ -30,6 +37,28 @@
   background-color: rgba(214, 119, 63, 0.4);
   border-radius: 15px;
   padding: 0.25rem;
+  margin-left: 15rem;
+}
+.incomplete button{
+  background: none;
+  border: none;
+  color: blue;
+  padding: 0;
+  border-bottom: 1px solid blue;
+}
+.expenseBtn{
+  margin-left: 5rem;
+}
+.mode{
+  padding: 2px;
+  display: flex;
+  align-items: flex-end;
+}
+.mode button{
+  background: none;
+  border: none;
+  display: flex;
+  align-items: flex-end;
 }
 .logout button {
   width: 100%;
@@ -59,4 +88,11 @@
     margin-right: 0;
     margin-left: 0;
   }
+}
+.sectionLower {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
 }

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialAuthState = {
   token: localStorage.getItem("token"),
   userEmail: localStorage.getItem("userEmail"),
+  isPremium: localStorage.getItem("isPremium"),
 };
 const authSlice = createSlice({
   name: "auth",
@@ -19,6 +20,12 @@ const authSlice = createSlice({
       state.userEmail = null;
       localStorage.removeItem("token");
       localStorage.removeItem("userEmail");
+      state.isPremium = false;
+      localStorage.removeItem("isPremium");
+      localStorage.removeItem("isDark");
+    },
+    setIsPremium(state) {
+      state.isPremium = true;
     },
   },
 });
